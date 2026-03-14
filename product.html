@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product — Aljamaal Official</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="navbar-logo">
+        <div class="logo-text">Al<span>jamaal</span></div>
+      </a>
+      <div class="navbar-links">
+        <a href="index.html">Home</a>
+        <a href="products.html">Products</a>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact</a>
+        <a href="cart.html" class="cart-link">
+          🛒
+          <span class="cart-badge" style="display:none;">0</span>
+        </a>
+      </div>
+      <button class="hamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb-bar">
+    <div class="container">
+      <nav class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span>›</span>
+        <a href="products.html">Products</a>
+        <span>›</span>
+        <span id="breadcrumb-name">Product</span>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Product Detail -->
+  <section>
+    <div class="container">
+      <div class="product-detail" id="product-detail">
+        <!-- Populated by JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Related Products -->
+  <section style="background-color: #F0EDE8;">
+    <div class="container">
+      <div class="section-header">
+        <span class="label">You May Also Like</span>
+        <h2>Related Products</h2>
+      </div>
+      <div class="products-grid" id="related-products"></div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <p class="brand-name">Al<span>jamaal</span></p>
+          <p class="tagline">Timeless South African Fashion</p>
+          <p>A family-owned clothing brand celebrating modest, elegant fashion rooted in South African heritage.</p>
+          <div class="social-links">
+            <a href="https://www.instagram.com/aljamaal_official/" target="_blank" rel="noopener" aria-label="Instagram">📷</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Categories</h4>
+          <ul>
+            <li><a href="products.html">Men</a></li>
+            <li><a href="products.html">Women</a></li>
+            <li><a href="products.html">Kids</a></li>
+            <li><a href="products.html">Home</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <address>
+            South Africa<br>
+            <a href="mailto:info@aljamaal.co.za" style="color:#888;">info@aljamaal.co.za</a><br><br>
+            <a href="https://wa.me/27000000000" style="color:#888;">WhatsApp Us</a>
+          </address>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Aljamaal Official. All rights reserved.</p>
+        <p>South Africa 🇿🇦</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/products-data.js"></script>
+  <script src="js/script.js"></script>
+  <script>
+    // Get the product id from the URL, e.g. product.html?id=3
+    const params = new URLSearchParams(window.location.search);
+    const productId = parseInt(params.get('id'));
+    const product = products.find(p => p.id === productId);
+
+    if (!product) {
+      // If no valid product found, send user back to products page
+      window.location.href = 'products.html';
+    } else {
+      // Update page title
+      document.title = `${product.name} — Aljamaal Official`;
+
+      // Update breadcrumb
+      document.getElementById('breadcrumb-name').textContent = product.name;
+
+      // Build the badge HTML
+      const badge = product.badge
+        ? `<span class="product-detail-badge">${product.badge}</span>`
+        : '';
+
+      // Render the product detail section
+      document.getElementById('product-detail').innerHTML = `
+        <div class="product-detail-img">
+          <div class="img-placeholder" style="height:100%;">
+            <span>Photo<br>Coming Soon</span>
+          </div>
+          ${badge}
+        </div>
+        <div class="product-detail-info">
+          <p class="product-detail-category">${product.category}</p>
+          <h1 class="product-detail-name">${product.name}</h1>
+          <p class="product-detail-price">R ${product.price > 0 ? product.price.toFixed(2) : 'Price on request'}</p>
+          <p class="product-detail-desc">${product.description}</p>
+
+          <div class="product-detail-qty">
+            <label>Quantity</label>
+            <div class="qty-control">
+              <button onclick="changeDetailQty(-1)">&#8722;</button>
+              <span id="detail-qty">1</span>
+              <button onclick="changeDetailQty(1)">&#43;</button>
+            </div>
+          </div>
+
+          <div class="product-detail-actions">
+            <button class="btn btn-primary" style="flex:1;" onclick="addDetailToCart()">
+              Add to Cart
+            </button>
+            <a href="cart.html" class="btn btn-dark" style="flex:1; text-align:center;">
+              View Cart
+            </a>
+          </div>
+
+          <div class="product-detail-meta">
+            <p><strong>Category:</strong> ${product.category}</p>
+            <p><strong>Availability:</strong> ${product.badge === 'Limited' ? 'Limited Stock' : 'In Stock'}</p>
+          </div>
+        </div>
+      `;
+
+      // Related products — same category, excluding current product, max 4
+      const related = products
+        .filter(p => p.category === product.category && p.id !== product.id)
+        .slice(0, 4);
+
+      // If not enough in same category, fill from other products
+      if (related.length < 4) {
+        const others = products
+          .filter(p => p.id !== product.id && !related.includes(p))
+          .slice(0, 4 - related.length);
+        related.push(...others);
+      }
+
+      renderProductGrid('related-products', related);
+    }
+
+    // Quantity controls on the product detail page
+    function changeDetailQty(delta) {
+      const el = document.getElementById('detail-qty');
+      let qty = parseInt(el.textContent) + delta;
+      if (qty < 1) qty = 1;
+      if (qty > 99) qty = 99;
+      el.textContent = qty;
+    }
+
+    function addDetailToCart() {
+      const qty = parseInt(document.getElementById('detail-qty').textContent);
+      for (let i = 0; i < qty; i++) {
+        CartManager.addItem(product);
+      }
+      // Only show toast once even if qty > 1
+      if (qty > 1) showToast(`${qty} × "${product.name}" added to cart`);
+    }
+  </script>
+
+</body>
+</html>

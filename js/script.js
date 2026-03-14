@@ -154,18 +154,22 @@ function createProductCardHTML(product) {
     ? `<span class="product-card-badge">${product.badge}</span>`
     : '';
 
+  const priceDisplay = product.price > 0
+    ? `R ${product.price.toFixed(2)}`
+    : 'Price on request';
+
   return `
     <div class="product-card" data-id="${product.id}" data-category="${product.category}">
-      <div class="product-card-img">
+      <a href="product.html?id=${product.id}" class="product-card-img">
         ${badge}
         <div class="img-placeholder">
           <span>Photo<br>Coming Soon</span>
         </div>
-      </div>
+      </a>
       <div class="product-card-info">
         <p class="category">${product.category}</p>
-        <h3>${product.name}</h3>
-        <p class="price">R ${product.price.toFixed(2)}</p>
+        <a href="product.html?id=${product.id}"><h3>${product.name}</h3></a>
+        <p class="price">${priceDisplay}</p>
         <button class="add-to-cart-btn" onclick="CartManager.addItem(${JSON.stringify(product).replace(/"/g, '&quot;')})">
           Add to Cart
         </button>

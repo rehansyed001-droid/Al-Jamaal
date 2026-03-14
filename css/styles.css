@@ -994,6 +994,126 @@ section {
 }
 
 /* ============================================================
+   BREADCRUMB
+   ============================================================ */
+.breadcrumb-bar {
+  background-color: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 0;
+}
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--grey);
+}
+.breadcrumb a {
+  color: var(--grey);
+  transition: color 0.2s;
+}
+.breadcrumb a:hover { color: var(--gold); }
+.breadcrumb span { color: var(--grey); }
+
+/* ============================================================
+   PRODUCT DETAIL PAGE
+   ============================================================ */
+.product-detail {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: start;
+}
+
+.product-detail-img {
+  position: relative;
+  aspect-ratio: 3/4;
+  background-color: #F0EDE8;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.product-detail-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: var(--gold);
+  color: var(--dark);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  z-index: 1;
+}
+
+.product-detail-info {
+  padding-top: 8px;
+}
+
+.product-detail-category {
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.product-detail-name {
+  font-size: clamp(28px, 4vw, 42px);
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+
+.product-detail-price {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 20px;
+}
+
+.product-detail-desc {
+  font-size: 16px;
+  color: var(--grey);
+  line-height: 1.8;
+  margin-bottom: 32px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--border);
+}
+
+.product-detail-qty {
+  margin-bottom: 24px;
+}
+.product-detail-qty label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.product-detail-actions {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.product-detail-meta {
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+.product-detail-meta p {
+  font-size: 14px;
+  color: var(--grey);
+  margin-bottom: 8px;
+}
+.product-detail-meta strong {
+  color: var(--dark);
+}
+
+/* ============================================================
    RESPONSIVE — TABLET (max 1024px)
    ============================================================ */
 @media (max-width: 1024px) {
@@ -1014,7 +1134,8 @@ section {
     aspect-ratio: 16/7;
   }
   .cart-layout,
-  .checkout-layout {
+  .checkout-layout,
+  .product-detail {
     grid-template-columns: 1fr;
   }
   .values-grid {
