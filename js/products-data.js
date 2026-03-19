@@ -18,7 +18,8 @@ const products = [
     name: "Original Burnoose",
     category: "Men",
     price: 0,
-    image: "images/placeholder.jpg",
+    image: "images/OriginalBurnoose.jpeg",
+    images: ["images/OriginalBurnoose.jpeg", "images/3Burnoose.png"],
     badge: "",
     description: "The classic Al-Jamaal burnoose — timeless, comfortable, and crafted to last."
   },

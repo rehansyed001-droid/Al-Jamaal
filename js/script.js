@@ -158,13 +158,33 @@ function createProductCardHTML(product) {
     ? `R ${product.price.toFixed(2)}`
     : 'Price on request';
 
+  const allImages = (product.images && product.images.length > 0)
+    ? product.images
+    : (product.image && !product.image.includes('placeholder') ? [product.image] : []);
+
+  let imgHTML;
+  if (allImages.length > 1) {
+    const slides = allImages.map((src, i) =>
+      `<div class="slide${i === 0 ? ' active' : ''}"><img src="${src}" alt="${product.name}" style="width:100%;height:100%;object-fit:cover;"></div>`
+    ).join('');
+    imgHTML = `
+      <div class="card-slider" data-current="0">
+        ${slides}
+        <button class="card-slider-btn card-slider-prev" onclick="event.preventDefault();cardSlide(this,-1)">&#8249;</button>
+        <button class="card-slider-btn card-slider-next" onclick="event.preventDefault();cardSlide(this,1)">&#8250;</button>
+        <div class="slider-dots">${allImages.map((_, i) => `<span class="dot${i===0?' active':''}" onclick="event.preventDefault();cardGoTo(this,${i})"></span>`).join('')}</div>
+      </div>`;
+  } else if (allImages.length === 1) {
+    imgHTML = `<img src="${allImages[0]}" alt="${product.name}" style="width:100%;height:100%;object-fit:cover;">`;
+  } else {
+    imgHTML = `<div class="img-placeholder"><span>Photo<br>Coming Soon</span></div>`;
+  }
+
   return `
     <div class="product-card" data-id="${product.id}" data-category="${product.category}">
       <a href="product.html?id=${product.id}" class="product-card-img">
         ${badge}
-        <div class="img-placeholder">
-          <span>Photo<br>Coming Soon</span>
-        </div>
+        ${imgHTML}
       </a>
       <div class="product-card-info">
         <p class="category">${product.category}</p>
@@ -176,6 +196,31 @@ function createProductCardHTML(product) {
       </div>
     </div>
   `;
+}
+
+function cardSlide(btn, dir) {
+  const slider = btn.closest('.card-slider');
+  const slides = slider.querySelectorAll('.slide');
+  const dots = slider.querySelectorAll('.dot');
+  let current = parseInt(slider.dataset.current);
+  slides[current].classList.remove('active');
+  dots[current].classList.remove('active');
+  current = (current + dir + slides.length) % slides.length;
+  slider.dataset.current = current;
+  slides[current].classList.add('active');
+  dots[current].classList.add('active');
+}
+
+function cardGoTo(dot, index) {
+  const slider = dot.closest('.card-slider');
+  const slides = slider.querySelectorAll('.slide');
+  const dots = slider.querySelectorAll('.dot');
+  let current = parseInt(slider.dataset.current);
+  slides[current].classList.remove('active');
+  dots[current].classList.remove('active');
+  slider.dataset.current = index;
+  slides[index].classList.add('active');
+  dots[index].classList.add('active');
 }
 
 /**
@@ -355,8 +400,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Products page: render all products + init filter
   if (document.getElementById('products-grid')) {
-    renderProductGrid('products-grid', products);
+    const urlParams = new URLSearchParams(window.location.search);
+    const category = urlParams.get('category');
+    let productsToShow = products;
+    if (category && category !== 'All') {
+      productsToShow = products.filter(p => p.category === category);
+    }
+    renderProductGrid('products-grid', productsToShow);
     initCategoryFilter();
+    // Set active button based on category parameter
+    if (category) {
+      const btn = document.querySelector(`.filter-btn[data-filter="${category}"]`);
+      if (btn) {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      }
+    }
   }
 
   // Cart page

@@ -1025,6 +1025,43 @@ section {
   align-items: start;
 }
 
+/* ── Card Slider (products grid) ──────────────────────── */
+.card-slider {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.card-slider .slide {
+  display: none;
+  width: 100%;
+  height: 100%;
+}
+.card-slider .slide.active {
+  display: block;
+}
+.card-slider-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255,255,255,0.85);
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--dark);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.product-card-img:hover .card-slider-btn { opacity: 1; }
+.card-slider-prev { left: 8px; }
+.card-slider-next { right: 8px; }
+
 .product-detail-img {
   position: relative;
   aspect-ratio: 3/4;
@@ -1032,6 +1069,59 @@ section {
   border-radius: 4px;
   overflow: hidden;
 }
+
+/* ── Image Slider ─────────────────────────────────────── */
+.img-slider {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.img-slider .slide {
+  display: none;
+  width: 100%;
+  height: 100%;
+}
+.img-slider .slide.active {
+  display: block;
+}
+.slider-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255,255,255,0.85);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 22px;
+  cursor: pointer;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--dark);
+  transition: background 0.2s;
+}
+.slider-btn:hover { background: #fff; }
+.slider-prev { left: 12px; }
+.slider-next { right: 12px; }
+.slider-dots {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+}
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.6);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.dot.active { background: #fff; }
 
 .product-detail-badge {
   position: absolute;
