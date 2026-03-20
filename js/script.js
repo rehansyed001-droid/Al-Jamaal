@@ -224,6 +224,26 @@ function cardGoTo(dot, index) {
 }
 
 /**
+ * Adds touch/swipe support to all .card-slider elements inside a container.
+ * Call this after rendering product grids.
+ */
+function initCardSliderTouch(container) {
+  container.querySelectorAll('.card-slider').forEach(slider => {
+    let startX = 0;
+    slider.addEventListener('touchstart', e => {
+      startX = e.touches[0].clientX;
+    }, { passive: true });
+    slider.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - startX;
+      if (Math.abs(dx) > 40) {
+        const fakeBtn = { closest: () => slider };
+        cardSlide(fakeBtn, dx < 0 ? 1 : -1);
+      }
+    }, { passive: true });
+  });
+}
+
+/**
  * Renders a set of products into a grid container.
  * @param {string} containerId - The id of the grid element
  * @param {Array} productList - Array of product objects to render
@@ -253,6 +273,7 @@ function initCategoryFilter() {
         : products.filter(p => p.category === selected);
 
       renderProductGrid('products-grid', filtered);
+      initCardSliderTouch(document.getElementById('products-grid'));
     });
   });
 }
@@ -407,6 +428,7 @@ document.addEventListener('DOMContentLoaded', () => {
       productsToShow = products.filter(p => p.category === category);
     }
     renderProductGrid('products-grid', productsToShow);
+    initCardSliderTouch(document.getElementById('products-grid'));
     initCategoryFilter();
     // Set active button based on category parameter
     if (category) {
