@@ -302,9 +302,10 @@ function renderCart() {
     <tr>
       <td>
         <div class="cart-item-info">
-          <div class="cart-item-img img-placeholder" style="width:70px;min-width:70px;height:85px;">
-            <span style="font-size:10px;text-align:center;">Photo</span>
-          </div>
+          ${item.image
+            ? `<img src="${item.image}" alt="${item.name}" style="width:70px;min-width:70px;height:85px;object-fit:cover;border-radius:6px;">`
+            : `<div class="cart-item-img img-placeholder" style="width:70px;min-width:70px;height:85px;"><span style="font-size:10px;text-align:center;">Photo</span></div>`
+          }
           <div>
             <p class="cart-item-name">${item.name}</p>
             <p class="cart-item-cat">${item.category}</p>
@@ -414,9 +415,11 @@ document.addEventListener('DOMContentLoaded', () => {
   setActiveNavLink();
   initContactForm();
 
-  // Home page: render 4 featured products
+  // Home page: render 1 featured product from each category
   if (document.getElementById('featured-products')) {
-    renderProductGrid('featured-products', products.slice(0, 4));
+    const categories = ['Men', 'Women', 'Kids', 'Home'];
+    const featured = categories.map(cat => products.find(p => p.category === cat)).filter(Boolean);
+    renderProductGrid('featured-products', featured);
     initCardSliderTouch(document.getElementById('featured-products'));
   }
 

@@ -18,8 +18,8 @@ const products = [
     name: "Original Burnoose",
     category: "Men",
     price: 0,
-    image: "images/OriginalBurnoose.jpeg",
-    images: ["images/OriginalBurnoose.jpeg", "images/3Burnoose.png"],
+    image: "images/OBurnooseM.png",
+    images: ["images/OBurnooseM.png", "images/OBurnooseS1.png", "images/OBurnooseS2.jpg", "images/OBurnooseS3.jpg", "images/OBurnooseS4.png", "images/OBurnooseS5.jpg"],
     badge: "",
     description: "The classic Al-Jamaal burnoose — timeless, comfortable, and crafted to last."
   },
@@ -28,7 +28,8 @@ const products = [
     name: "Lightweight Burnoose",
     category: "Men",
     price: 0,
-    image: "images/placeholder.jpg",
+    image: "images/LBurnooseM.jpg",
+    images: ["images/LBurnooseM.jpg", "images/LBurnooseS1.jpg", "images/LBurnooseS2.png", "images/LBurnooseS3.png", "images/LBurnooseS4.png"],
     badge: "",
     description: "A lighter take on our signature burnoose, perfect for warmer days."
   },

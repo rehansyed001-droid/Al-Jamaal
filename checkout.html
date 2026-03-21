@@ -139,15 +139,10 @@
               <textarea id="order_notes" name="custom_str5" placeholder="Any special instructions for your order..."></textarea>
             </div>
 
-            <!-- Payment button — submits to PayFast -->
-            <button type="submit" class="btn btn-primary" style="width:100%; font-size:16px; padding:16px;">
-              Pay Securely with PayFast →
-            </button>
-
-            <p style="font-size:12px; color:#888; text-align:center; margin-top:12px;">
-              You will be redirected to PayFast to complete your payment securely.
-              We accept credit/debit cards, EFT, SnapScan, and more.
-            </p>
+            <!-- Back to cart link -->
+            <a href="cart.html" class="btn btn-secondary" style="display:flex; align-items:center; justify-content:center; gap:8px; width:100%; font-size:16px; padding:14px; text-decoration:none; margin-top:8px;">
+              ← Back to Cart
+            </a>
 
           </form>
         </div>
@@ -171,6 +166,16 @@
             <span>Total (ZAR)</span>
             <span id="checkout-grand-total">R 0.00</span>
           </div>
+
+          <!-- Payment button — submits the form above via HTML5 form attribute -->
+          <button type="submit" form="checkout-form" class="btn btn-primary" style="width:100%; font-size:16px; padding:16px; margin-top:20px;">
+            Pay Securely with PayFast →
+          </button>
+
+          <p style="font-size:12px; color:#888; text-align:center; margin-top:10px;">
+            You will be redirected to PayFast to complete your payment securely.
+            We accept credit/debit cards, EFT, SnapScan, and more.
+          </p>
 
           <div class="payfast-section">
             <p>Powered by</p>
@@ -218,9 +223,9 @@
         <div class="footer-col">
           <h4>Contact</h4>
           <address>
-            South Africa<br>
-            <a href="mailto:info@aljamaal.co.za" style="color:#888;">info@aljamaal.co.za</a><br><br>
-            <a href="https://wa.me/27000000000" style="color:#888;">WhatsApp Us</a>
+            <a href="mailto:info@aljamaal.co.za" style="color:#888;">Email (coming soon)</a><br><br>
+            <a href="https://wa.me/27000000000" style="color:#888;">WhatsApp (coming soon)</a><br><br>
+            <a href="https://www.instagram.com/aljamaal_official/" target="_blank" style="color:#888;">Instagram: @aljamaal_official</a>
           </address>
         </div>
       </div>
