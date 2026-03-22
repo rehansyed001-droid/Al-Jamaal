@@ -39,7 +39,7 @@ const products = [
     category: "Men",
     price: 0,
     image: "images/3:4ShortsM.jpg",
-    images: ["images/3:4ShortsM.jpg", "images/3:4ShortsS1.jpg", "images/3:4ShortsS2.png", "images/3:4ShortsS3.png", "images/3:4ShortsS4.jpg", "images/3:4ShortsS5.jpg", "images/3:4ShortsS6.jpg"],
+    images: ["images/3:4ShortsM.jpg", "images/3:4 shorts video.mp4", "images/3:4ShortsS1.jpg", "images/3:4ShortsS2.png", "images/3:4ShortsS3.png", "images/3:4ShortsS4.jpg", "images/3:4ShortsS5.jpg", "images/3:4ShortsS6.jpg"],
     badge: "",
     description: "Available in 9 colours. Relaxed fit ¾ shorts built for everyday comfort."
   },

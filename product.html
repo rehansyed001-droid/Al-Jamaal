@@ -95,7 +95,8 @@
         <div class="footer-col">
           <h4>Contact</h4>
           <address>
-            <a href="mailto:info@aljamaal.co.za" style="color:#888;">Email (coming soon)</a><br><br>
+            <!-- This is fake email. Replacing it eventually -->
+            <a href="mailto:contact@aljamaal.com" style="color:#888;">Email (coming soon)</a><br><br>
             <a href="https://wa.me/27000000000" style="color:#888;">WhatsApp (coming soon)</a><br><br>
             <a href="https://www.instagram.com/aljamaal_official/" target="_blank" style="color:#888;">Instagram: @aljamaal_official</a>
           </address>
@@ -135,9 +136,13 @@
       const allImages = (product.images && product.images.length > 0) ? product.images : (product.image && !product.image.includes('placeholder') ? [product.image] : []);
       let sliderHTML;
       if (allImages.length > 1) {
-        const slides = allImages.map((src, i) =>
-          `<div class="slide${i === 0 ? ' active' : ''}"><img src="${src}" alt="${product.name} ${i+1}" style="width:100%;height:100%;object-fit:cover;border-radius:4px;"></div>`
-        ).join('');
+        const slides = allImages.map((src, i) => {
+          const isVideo = src.match(/\.(mp4|webm|mov)$/i);
+          const media = isVideo
+            ? `<video controls controlsList="nodownload" disablePictureInPicture style="width:100%;height:100%;object-fit:contain;border-radius:4px;"><source src="${src}" type="video/mp4"></video>`
+            : `<img class="slide-blur" src="${src}" alt="" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;filter:blur(18px);opacity:0.6;transform:scale(1.1);"><img class="slide-main" src="${src}" alt="${product.name} ${i+1}" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;">`;
+          return `<div class="slide${i === 0 ? ' active' : ''}">${media}</div>`;
+        }).join('');
         sliderHTML = `
           <div class="img-slider">
             ${slides}
@@ -146,7 +151,7 @@
             <div class="slider-dots">${allImages.map((_, i) => `<span class="dot${i===0?' active':''}" onclick="goToSlide(${i})"></span>`).join('')}</div>
           </div>`;
       } else if (allImages.length === 1) {
-        sliderHTML = `<img src="${allImages[0]}" alt="${product.name}" style="width:100%;height:100%;object-fit:cover;border-radius:4px;">`;
+        sliderHTML = `<img src="${allImages[0]}" alt="${product.name}" style="width:100%;height:100%;object-fit:contain;">`;
       } else {
         sliderHTML = `<div class="img-placeholder" style="height:100%;"><span>Photo<br>Coming Soon</span></div>`;
       }
@@ -204,6 +209,7 @@
       renderProductGrid('related-products', related);
     }
 
+
     // Quantity controls on the product detail page
     function changeDetailQty(delta) {
       const el = document.getElementById('detail-qty');
@@ -224,25 +230,39 @@
 
     // Image slider controls
     let currentSlide = 0;
+
+    function handleSlideVideo(slides, prev, next) {
+      // Pause any video on the slide we're leaving
+      const prevVideo = slides[prev].querySelector('video');
+      if (prevVideo) { prevVideo.pause(); prevVideo.currentTime = 0; }
+      // Autoplay any video on the slide we're going to
+      const nextVideo = slides[next].querySelector('video');
+      if (nextVideo) nextVideo.play();
+    }
+
     function moveSlide(dir) {
       const slides = document.querySelectorAll('.img-slider .slide');
       const dots = document.querySelectorAll('.img-slider .dot');
       if (!slides.length) return;
-      slides[currentSlide].classList.remove('active');
-      if (dots[currentSlide]) dots[currentSlide].classList.remove('active');
+      const prev = currentSlide;
+      slides[prev].classList.remove('active');
+      if (dots[prev]) dots[prev].classList.remove('active');
       currentSlide = (currentSlide + dir + slides.length) % slides.length;
       slides[currentSlide].classList.add('active');
       if (dots[currentSlide]) dots[currentSlide].classList.add('active');
+      handleSlideVideo(slides, prev, currentSlide);
     }
     function goToSlide(index) {
       const slides = document.querySelectorAll('.img-slider .slide');
       const dots = document.querySelectorAll('.img-slider .dot');
       if (!slides.length) return;
-      slides[currentSlide].classList.remove('active');
-      if (dots[currentSlide]) dots[currentSlide].classList.remove('active');
+      const prev = currentSlide;
+      slides[prev].classList.remove('active');
+      if (dots[prev]) dots[prev].classList.remove('active');
       currentSlide = index;
       slides[currentSlide].classList.add('active');
       if (dots[currentSlide]) dots[currentSlide].classList.add('active');
+      handleSlideVideo(slides, prev, currentSlide);
     }
 
     // Touch/swipe support for the detail image slider

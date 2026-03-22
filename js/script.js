@@ -164,9 +164,13 @@ function createProductCardHTML(product) {
 
   let imgHTML;
   if (allImages.length > 1) {
-    const slides = allImages.map((src, i) =>
-      `<div class="slide${i === 0 ? ' active' : ''}"><img src="${src}" alt="${product.name}" style="width:100%;height:100%;object-fit:cover;"></div>`
-    ).join('');
+    const slides = allImages.map((src, i) => {
+      const isVideo = src.match(/\.(mp4|webm|mov)$/i);
+      const media = isVideo
+        ? `<video controls controlsList="nodownload" disablePictureInPicture style="width:100%;height:100%;object-fit:cover;"><source src="${src}" type="video/mp4"></video>`
+        : `<img src="${src}" alt="${product.name}" style="width:100%;height:100%;object-fit:cover;">`;
+      return `<div class="slide${i === 0 ? ' active' : ''}">${media}</div>`;
+    }).join('');
     imgHTML = `
       <div class="card-slider" data-current="0">
         ${slides}
@@ -190,7 +194,7 @@ function createProductCardHTML(product) {
         <p class="category">${product.category}</p>
         <a href="product.html?id=${product.id}"><h3>${product.name}</h3></a>
         <p class="price">${priceDisplay}</p>
-        <button class="add-to-cart-btn" onclick="CartManager.addItem(${JSON.stringify(product).replace(/"/g, '&quot;')})">
+        <button class="add-to-cart-btn" onclick="window.location.href='product.html?id=${product.id}'">
           Add to Cart
         </button>
       </div>
@@ -302,12 +306,16 @@ function renderCart() {
     <tr>
       <td>
         <div class="cart-item-info">
-          ${item.image
-            ? `<img src="${item.image}" alt="${item.name}" style="width:70px;min-width:70px;height:85px;object-fit:cover;border-radius:6px;">`
-            : `<div class="cart-item-img img-placeholder" style="width:70px;min-width:70px;height:85px;"><span style="font-size:10px;text-align:center;">Photo</span></div>`
-          }
+          <a href="product.html?id=${item.id}">
+            ${item.image
+              ? `<img src="${item.image}" alt="${item.name}" style="width:70px;min-width:70px;height:85px;object-fit:cover;border-radius:6px;">`
+              : `<div class="cart-item-img img-placeholder" style="width:70px;min-width:70px;height:85px;"><span style="font-size:10px;text-align:center;">Photo</span></div>`
+            }
+          </a>
           <div>
-            <p class="cart-item-name">${item.name}</p>
+            <a href="product.html?id=${item.id}" style="text-decoration:none; color:inherit;">
+              <p class="cart-item-name">${item.name}</p>
+            </a>
             <p class="cart-item-cat">${item.category}</p>
           </div>
         </div>
