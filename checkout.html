@@ -62,9 +62,7 @@
           -->
           <form
             id="checkout-form"
-            action="https://sandbox.payfast.co.za/eng/process"
-            method="POST"
-            onsubmit="return preparePayFastForm()"
+            onsubmit="return goToCardInfo()"
           >
 
             <!-- PayFast hidden fields -->
@@ -167,9 +165,9 @@
             <span id="checkout-grand-total">R 0.00</span>
           </div>
 
-          <!-- Payment button — submits the form above via HTML5 form attribute -->
+          <!-- Payment button — saves shipping info then goes to card info page -->
           <button type="submit" form="checkout-form" class="btn btn-primary" style="width:100%; font-size:16px; padding:16px; margin-top:20px;">
-            Pay Securely with PayFast →
+            Continue to Payment →
           </button>
 
           <p style="font-size:12px; color:#888; text-align:center; margin-top:10px;">
@@ -223,7 +221,8 @@
         <div class="footer-col">
           <h4>Contact</h4>
           <address>
-            <a href="mailto:info@aljamaal.co.za" style="color:#888;">Email (coming soon)</a><br><br>
+            <!-- This is fake email. Replacing it eventually -->
+            <a href="mailto:contact@aljamaal.com" style="color:#888;">Email (coming soon)</a><br><br>
             <a href="https://wa.me/27000000000" style="color:#888;">WhatsApp (coming soon)</a><br><br>
             <a href="https://www.instagram.com/aljamaal_official/" target="_blank" style="color:#888;">Instagram: @aljamaal_official</a>
           </address>
@@ -239,27 +238,9 @@
   <script src="js/products-data.js"></script>
   <script src="js/script.js"></script>
   <script>
-    /**
-     * Before submitting the PayFast form, update the amount field
-     * with the current cart total so it matches what the customer sees.
-     */
-    function preparePayFastForm() {
-      const total = CartManager.getTotal();
-      if (total <= 0) {
-        alert('Your cart is empty. Please add items before checking out.');
-        window.location.href = 'products.html';
-        return false;
-      }
-      document.getElementById('payfast-amount').value = total.toFixed(2);
-
-      // Also update the grand total display
-      const grandTotalEl = document.getElementById('checkout-grand-total');
-      if (grandTotalEl) grandTotalEl.textContent = `R ${total.toFixed(2)}`;
-
-      // Clear the cart after redirecting to PayFast
-      // (PayFast will redirect to return_url after payment)
-      CartManager.clear();
-      return true; // allow form to submit
+    function goToCardInfo() {
+      window.location.href = 'card-info.html';
+      return false;
     }
   </script>
 

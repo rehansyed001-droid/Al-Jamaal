@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Card Information — Aljamaal Official</title>
+  <link rel="stylesheet" href="css/styles.css?v=2">
+  <style>
+    .card-info-layout {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 40px;
+      align-items: start;
+      padding: 60px 0;
+    }
+
+    @media (max-width: 768px) {
+      .card-info-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card-form-section h2 {
+      font-size: 24px;
+      margin-bottom: 28px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--dark);
+      margin-bottom: 8px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 13px 16px;
+      border: 1px solid var(--border);
+      background: var(--white);
+      font-family: 'Lato', sans-serif;
+      font-size: 15px;
+      color: var(--dark);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-group input:focus {
+      border-color: var(--gold);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    /* Visual card preview */
+    .card-preview {
+      background: linear-gradient(135deg, #1A1A1A 0%, #3a3a3a 100%);
+      border-radius: 12px;
+      padding: 28px;
+      color: #fff;
+      margin-bottom: 32px;
+      position: relative;
+      min-height: 180px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    }
+
+    .card-preview-chip {
+      width: 40px;
+      height: 30px;
+      background: var(--gold);
+      border-radius: 5px;
+      margin-bottom: 28px;
+      opacity: 0.9;
+    }
+
+    .card-preview-number {
+      font-size: 18px;
+      letter-spacing: 3px;
+      font-family: 'Courier New', monospace;
+      margin-bottom: 20px;
+      color: #fff;
+    }
+
+    .card-preview-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .card-preview-label {
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 4px;
+    }
+
+    .card-preview-value {
+      font-size: 14px;
+      color: #fff;
+      font-family: 'Courier New', monospace;
+      letter-spacing: 1px;
+    }
+
+    .card-preview-logo {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 1px;
+    }
+
+    /* Order summary box reused from checkout */
+    .order-summary-box {
+      background: var(--white);
+      border: 1px solid var(--border);
+      padding: 28px;
+    }
+
+    .order-summary-box h3 {
+      font-size: 18px;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      margin-bottom: 10px;
+      color: var(--grey);
+    }
+
+    .summary-row.total {
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--dark);
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+      margin-top: 10px;
+    }
+
+    .secure-badges {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .secure-badge {
+      font-size: 11px;
+      color: var(--grey);
+      background: var(--cream);
+      border: 1px solid var(--border);
+      padding: 4px 8px;
+      border-radius: 3px;
+    }
+
+    .ssl-note {
+      font-size: 11px;
+      color: var(--grey);
+      text-align: center;
+      margin-top: 12px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="navbar-logo">
+        <div class="logo-text">Al<span>jamaal</span></div>
+      </a>
+      <div class="navbar-links">
+        <a href="index.html">Home</a>
+        <a href="products.html">Products</a>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact</a>
+        <a href="cart.html" class="cart-link">
+          Cart
+          <span class="cart-badge" style="display:none;">0</span>
+        </a>
+      </div>
+      <button class="hamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Page Hero -->
+  <div class="page-hero">
+    <span class="label">Secure Payment</span>
+    <h1>Card Information</h1>
+  </div>
+
+  <!-- Card Info Section -->
+  <section>
+    <div class="container">
+      <div class="card-info-layout">
+
+        <!-- Card Form -->
+        <div class="card-form-section">
+
+          <!-- Visual Card Preview -->
+          <div class="card-preview">
+            <div class="card-preview-logo">ALJAMAAL</div>
+            <div class="card-preview-chip"></div>
+            <div class="card-preview-number" id="preview-number">•••• •••• •••• ••••</div>
+            <div class="card-preview-bottom">
+              <div>
+                <div class="card-preview-label">Cardholder Name</div>
+                <div class="card-preview-value" id="preview-name">FULL NAME</div>
+              </div>
+              <div>
+                <div class="card-preview-label">Expires</div>
+                <div class="card-preview-value" id="preview-expiry">MM / YY</div>
+              </div>
+            </div>
+          </div>
+
+          <h2>Enter Your Card Details</h2>
+
+          <form id="card-form" onsubmit="handleCardPayment(event)">
+
+            <div class="form-group">
+              <label for="cardholder-name">Cardholder Name</label>
+              <input
+                type="text"
+                id="cardholder-name"
+                name="cardholder_name"
+                placeholder="Name as it appears on card"
+                autocomplete="cc-name"
+                required
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="card-number">Card Number</label>
+              <input
+                type="text"
+                id="card-number"
+                name="card_number"
+                placeholder="1234 5678 9012 3456"
+                maxlength="19"
+                autocomplete="cc-number"
+                inputmode="numeric"
+                required
+              >
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="expiry">Expiry Date</label>
+                <input
+                  type="text"
+                  id="expiry"
+                  name="expiry"
+                  placeholder="MM / YY"
+                  maxlength="7"
+                  autocomplete="cc-exp"
+                  inputmode="numeric"
+                  required
+                >
+              </div>
+              <div class="form-group">
+                <label for="cvv">CVV</label>
+                <input
+                  type="text"
+                  id="cvv"
+                  name="cvv"
+                  placeholder="123"
+                  maxlength="4"
+                  autocomplete="cc-csc"
+                  inputmode="numeric"
+                  required
+                >
+              </div>
+            </div>
+
+            <!-- Pay Now button -->
+            <button type="submit" class="btn btn-primary" style="width:100%; font-size:16px; padding:16px; margin-top:8px;">
+              Pay Now
+            </button>
+
+            <!-- Back to checkout -->
+            <a href="checkout.html" class="btn btn-secondary" style="display:flex; align-items:center; justify-content:center; gap:8px; width:100%; font-size:16px; padding:14px; text-decoration:none; margin-top:12px; border:1px solid #ccc; background:transparent; color:#1A1A1A;">
+              &larr; Back to Checkout
+            </a>
+
+          </form>
+        </div>
+
+        <!-- Order Summary Sidebar -->
+        <div class="order-summary-box">
+          <h3>Order Summary</h3>
+
+          <div id="card-order-items"></div>
+
+          <div class="summary-row" style="margin-top:16px; padding-top:16px; border-top:1px solid #E8E2D7;">
+            <span>Subtotal</span>
+            <span id="card-subtotal">R 0.00</span>
+          </div>
+          <div class="summary-row">
+            <span>Shipping</span>
+            <span>Calculated by seller</span>
+          </div>
+          <div class="summary-row total">
+            <span>Total (ZAR)</span>
+            <span id="card-total">R 0.00</span>
+          </div>
+
+          <div class="secure-badges">
+            <span class="secure-badge">VISA</span>
+            <span class="secure-badge">Mastercard</span>
+            <span class="secure-badge">EFT</span>
+            <span class="secure-badge">SnapScan</span>
+          </div>
+          <p class="ssl-note">256-bit SSL encrypted &amp; secure</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <p class="brand-name">Al<span>jamaal</span></p>
+          <p class="tagline">Timeless South African Fashion</p>
+          <p>A family-owned clothing brand celebrating modest, elegant fashion rooted in South African heritage.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Categories</h4>
+          <ul>
+            <li><a href="products.html?category=Men">Men</a></li>
+            <li><a href="products.html?category=Women">Women</a></li>
+            <li><a href="products.html?category=Kids">Kids</a></li>
+            <li><a href="products.html?category=Home">Home</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <address>
+            <!-- This is fake email. Replacing it eventually -->
+            <a href="mailto:contact@aljamaal.com" style="color:#888;">Email (coming soon)</a><br><br>
+            <a href="https://wa.me/27000000000" style="color:#888;">WhatsApp (coming soon)</a><br><br>
+            <a href="https://www.instagram.com/aljamaal_official/" target="_blank" style="color:#888;">Instagram: @aljamaal_official</a>
+          </address>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Aljamaal Official. All rights reserved.</p>
+        <p>South Africa</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/products-data.js"></script>
+  <script src="js/script.js"></script>
+  <script>
+    /* ── Order summary ── */
+    (function () {
+      const cart = CartManager.getCart();
+      const itemsEl = document.getElementById('card-order-items');
+      itemsEl.innerHTML = cart.map(item => `
+        <div class="summary-row">
+          <span>${item.name} &times; ${item.qty}</span>
+          <span>R ${(item.price * item.qty).toFixed(2)}</span>
+        </div>
+      `).join('');
+
+      const total = CartManager.getTotal();
+      document.getElementById('card-subtotal').textContent = `R ${total.toFixed(2)}`;
+      document.getElementById('card-total').textContent = `R ${total.toFixed(2)}`;
+    })();
+
+    /* ── Live card preview ── */
+    document.getElementById('cardholder-name').addEventListener('input', function () {
+      const val = this.value.toUpperCase() || 'FULL NAME';
+      document.getElementById('preview-name').textContent = val;
+    });
+
+    document.getElementById('card-number').addEventListener('input', function () {
+      // Keep only digits, then split into groups of 4
+      let digits = this.value.replace(/\D/g, '').slice(0, 16);
+      let formatted = digits.replace(/(.{4})/g, '$1 ').trim();
+      this.value = formatted;
+      // Update preview (replace missing digits with bullets)
+      let preview = (digits + '????????????????').slice(0, 16).replace(/(.{4})/g, '$1 ').trim();
+      preview = preview.replace(/[0-9?]/g, (c, i) => digits[Math.floor(i * 4/5)] !== undefined ? digits.replace(/ /g,'')[Math.floor(i * 4/5)] || '•' : '•');
+      document.getElementById('preview-number').textContent = formatted.padEnd(19, '•').replace(/ /g, ' ') || '•••• •••• •••• ••••';
+
+      // Simpler live update
+      let display = '';
+      for (let i = 0; i < 16; i++) {
+        if (i > 0 && i % 4 === 0) display += ' ';
+        display += digits[i] ? digits[i] : '•';
+      }
+      document.getElementById('preview-number').textContent = display;
+    });
+
+    document.getElementById('expiry').addEventListener('input', function () {
+      let digits = this.value.replace(/\D/g, '').slice(0, 4);
+      if (digits.length >= 3) {
+        this.value = digits.slice(0, 2) + ' / ' + digits.slice(2);
+      } else if (digits.length === 2 && !this.value.includes('/')) {
+        this.value = digits + ' / ';
+      } else {
+        this.value = digits;
+      }
+      document.getElementById('preview-expiry').textContent = this.value || 'MM / YY';
+    });
+
+    document.getElementById('cvv').addEventListener('input', function () {
+      this.value = this.value.replace(/\D/g, '').slice(0, 4);
+    });
+
+    /* ── Form submit ── */
+    function handleCardPayment(e) {
+      e.preventDefault();
+      CartManager.clear();
+      window.location.href = 'thankyou.html';
+    }
+  </script>
+
+</body>
+</html>
