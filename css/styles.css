@@ -213,8 +213,8 @@ ul { list-style: none; }
    HERO SECTION
    ============================================================ */
 .hero {
-  background: linear-gradient(135deg, #1A1A1A 0%, #2C2C2C 50%, #1A1A1A 100%);
-  color: var(--white);
+  background: linear-gradient(rgba(0,0,0,0.72), rgba(0,0,0,0.72)), url('../images/header%20backgroud.jpg') center/cover no-repeat;
+  color: #FFFFFF;
   min-height: 85vh;
   display: flex;
   align-items: center;
@@ -242,6 +242,8 @@ ul { list-style: none; }
   font-weight: 700;
   margin-bottom: 20px;
   line-height: 1.1;
+  color: #FFFFFF;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.4);
 }
 
 .hero h1 span {
@@ -250,7 +252,7 @@ ul { list-style: none; }
 
 .hero-desc {
   font-size: 18px;
-  color: #BBBBBB;
+  color: #F0F0F0;
   margin-bottom: 40px;
   max-width: 480px;
   font-weight: 300;
@@ -485,8 +487,8 @@ section {
    PAGE HERO (inner pages)
    ============================================================ */
 .page-hero {
-  background-color: var(--dark);
-  color: var(--white);
+  background: linear-gradient(rgba(0,0,0,0.72), rgba(0,0,0,0.72)), url('../images/header%20backgroud.jpg') center/cover no-repeat;
+  color: #FFFFFF;
   padding: 64px 24px;
   text-align: center;
 }
@@ -501,6 +503,8 @@ section {
 }
 .page-hero h1 {
   font-size: clamp(32px, 5vw, 56px);
+  color: #FFFFFF;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.4);
 }
 
 /* ============================================================
@@ -1330,4 +1334,34 @@ section {
     width: 10px;
     height: 10px;
   }
+}
+
+/* ============================================================
+   STT BTN — scroll-to-top btn (fixed, bottom-right)
+   Injected via script.js, visible after scrolling 300px
+   ============================================================ */
+#stt-btn {
+  position: fixed;
+  bottom: 40px;
+  right: 24px;
+  z-index: 999;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background-color: var(--dark);
+  color: var(--white);
+  border: none;
+  cursor: pointer;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  visibility: visible;
+  transition: background-color 0.3s ease;
+}
+
+#stt-btn:hover {
+  background-color: var(--gold);
+  color: var(--dark);
 }

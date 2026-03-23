@@ -195,7 +195,7 @@ function createProductCardHTML(product) {
         <a href="product.html?id=${product.id}"><h3>${product.name}</h3></a>
         <p class="price">${priceDisplay}</p>
         <button class="add-to-cart-btn" onclick="window.location.href='product.html?id=${product.id}'">
-          Add to Cart
+          View Product
         </button>
       </div>
     </div>
@@ -407,10 +407,54 @@ function initContactForm() {
   const form = document.getElementById('contact-form');
   if (!form) return;
 
+  // Init EmailJS with public key
+  emailjs.init('o-YDiH_3VbgTRUFSS');
+
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    showToast('Message sent! We will get back to you soon.');
-    form.reset();
+
+    const btn = form.querySelector('button[type="submit"]');
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+
+    // Map form fields to EmailJS template variables
+    const params = {
+      name:    form.name.value,
+      email:   form.email.value,
+      title:   form.subject.value,
+      message: form.message.value
+    };
+
+    emailjs.send('service_vrgg8w8', 'template_pjhca3u', params)
+      .then(() => {
+        showToast('Message sent! We will get back to you soon.');
+        form.reset();
+        btn.textContent = 'Send Message';
+        btn.disabled = false;
+      })
+      .catch(() => {
+        showToast('Something went wrong. Please try again.');
+        btn.textContent = 'Send Message';
+        btn.disabled = false;
+      });
+  });
+}
+
+/* ============================================================
+   STT BTN — scroll-to-top btn, injected on every pg
+   Shows after 300px scroll, smooth-scrolls back to top
+   ============================================================ */
+function initSTT() {
+  const btn = document.createElement('button');
+  btn.id = 'stt-btn';
+  btn.title = 'Back to top';
+  btn.innerHTML = '&#8679;';
+  document.body.appendChild(btn);
+
+
+  // Smooth scroll to top on click
+  btn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 }
 
@@ -420,6 +464,7 @@ function initContactForm() {
 document.addEventListener('DOMContentLoaded', () => {
   updateCartBadge();
   initMobileMenu();
+  initSTT();
   setActiveNavLink();
   initContactForm();
 
