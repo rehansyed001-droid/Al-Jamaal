@@ -129,12 +129,23 @@ const products = [
     name: "Mora Sherpa Baby Blanket",
     category: "Kids",
     price: 320,
-    image: "images/placeholder.jpg",
+    image: "images/MsbbM.png",
+    images: ["images/MsbbM.png", "images/MsbbS1.png", "images/MsbbS2.png", "images/MsbbS3.png", "images/MsbbS4.jpg", "images/MsbbS5.jpg"],
     badge: "",
     description: "Soft and warm sherpa blanket — a cosy gift for any new arrival."
   },
 
   // ── HOME ───────────────────────────────────────────────
+  {
+    id: 14,
+    name: "Al-Jamaal Apron",
+    category: "Home",
+    price: 190,
+    image: "images/AJApronsM.png",
+    images: ["images/AJApronsM.png", "images/AJApronsS1.png", "images/AJApronsS2.png", "images/AJApronsS3.png", "images/AJApronsS4.png", "images/AJApronsS5.png"],
+    badge: "",
+    description: "A practical and stylish apron, perfect for the kitchen."
+  },
   {
     id: 13,
     name: "Tablecloth",
@@ -143,15 +154,6 @@ const products = [
     image: "images/placeholder.jpg",
     badge: "Limited",
     description: "Elegant tablecloths to complete your home setting. Limited stock available."
-  },
-  {
-    id: 14,
-    name: "Al-Jamaal Apron",
-    category: "Home",
-    price: 190,
-    image: "images/placeholder.jpg",
-    badge: "",
-    description: "A practical and stylish apron, perfect for the kitchen."
   },
   {
     id: 15,
