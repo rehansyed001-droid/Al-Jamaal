@@ -87,12 +87,11 @@ const CartManager = {
    CART BADGE — updates the little number on the cart icon
    ============================================================ */
 function updateCartBadge() {
-  const badge = document.querySelector('.cart-badge');
-  if (!badge) return;
-
   const count = CartManager.getCount();
-  badge.textContent = count;
-  badge.style.display = count > 0 ? 'flex' : 'none';
+  document.querySelectorAll('.cart-badge').forEach(badge => {
+    badge.textContent = count;
+    badge.style.display = count > 0 ? 'flex' : 'none';
+  });
 }
 
 /* ============================================================
@@ -124,6 +123,17 @@ function initMobileMenu() {
   const hamburger = document.querySelector('.hamburger');
   const navLinks = document.querySelector('.navbar-links');
   if (!hamburger || !navLinks) return;
+
+  // Inject mobile cart icon next to hamburger (mobile only)
+  const navbarInner = document.querySelector('.navbar-inner');
+  if (navbarInner) {
+    const mobileCart = document.createElement('a');
+    mobileCart.href = 'cart.html';
+    mobileCart.className = 'mobile-cart-link';
+    mobileCart.innerHTML = '🛒 <span class="cart-badge" style="display:none;">0</span>';
+    navbarInner.insertBefore(mobileCart, hamburger);
+    updateCartBadge();
+  }
 
   hamburger.addEventListener('click', () => {
     hamburger.classList.toggle('open');

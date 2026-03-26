@@ -110,7 +110,7 @@
     </div>
   </footer>
 
-  <script src="js/products-data.js"></script>
+  <script src="js/products-data.js?v=12"></script>
   <script src="js/script.js"></script>
   <script>
     // Get the product id from the URL, e.g. product.html?id=3
@@ -179,9 +179,10 @@
           </div>
 
           <div class="product-detail-actions">
-            <button class="btn btn-primary" style="flex:1;" onclick="addDetailToCart()">
-              Add to Cart
-            </button>
+            ${product.badge === 'Sold Out'
+              ? `<button class="btn btn-primary" style="flex:1;opacity:0.4;cursor:not-allowed;" disabled>Sold Out</button>`
+              : `<button class="btn btn-primary" style="flex:1;" onclick="addDetailToCart()">Add to Cart</button>`
+            }
             <a href="cart.html" class="btn btn-dark" style="flex:1; text-align:center;">
               View Cart
             </a>
@@ -189,7 +190,7 @@
 
           <div class="product-detail-meta">
             <p><strong>Category:</strong> ${product.category}</p>
-            <p><strong>Availability:</strong> ${product.badge === 'Limited' ? 'Limited Stock' : 'In Stock'}</p>
+            <p><strong>Availability:</strong> ${product.badge === 'Sold Out' ? 'Sold Out' : product.badge === 'Limited' ? 'Limited Stock' : 'In Stock'}</p>
           </div>
         </div>
       `;

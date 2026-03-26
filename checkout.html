@@ -83,11 +83,11 @@
             <div class="form-row">
               <div class="form-group">
                 <label for="first_name">First Name</label>
-                <input type="text" id="first_name" name="name_first" placeholder="First name" required>
+                <input type="text" id="first_name" name="name_first" placeholder="First name" required pattern="[A-Za-z\s'\-]{2,}" minlength="2" title="Please enter a valid first name (letters only, at least 2 characters)">
               </div>
               <div class="form-group">
                 <label for="last_name">Last Name</label>
-                <input type="text" id="last_name" name="name_last" placeholder="Last name" required>
+                <input type="text" id="last_name" name="name_last" placeholder="Last name" required pattern="[A-Za-z\s'\-]{2,}" minlength="2" title="Please enter a valid last name (letters only, at least 2 characters)">
               </div>
             </div>
 
@@ -98,7 +98,11 @@
 
             <div class="form-group">
               <label for="phone">Phone Number</label>
-              <input type="tel" id="phone" name="cell_number" placeholder="+27 00 000 0000">
+              <input type="tel" id="phone" name="cell_number" placeholder="+27 71 234 5678" required oninput="formatPhone(this)">
+              <p id="phone-hint" style="color:#888; font-size:12px; margin-top:4px;">Include your country code (e.g. +27 for SA, +1 for US)</p>
+              <p id="phone-error" style="display:none; color:#C0392B; font-size:13px; margin-top:6px;">
+                Please enter a valid phone number including your country code.
+              </p>
             </div>
 
             <h2 style="margin-top: 32px;">Delivery Address</h2>
@@ -163,6 +167,9 @@
             <span>Shipping</span>
             <span>Calculated by seller</span>
           </div>
+          <p style="font-size:12px; color:#888; margin: 4px 0 12px; line-height:1.6;">
+            Shipping costs will be confirmed by the seller after your order. We will contact you with delivery details.
+          </p>
           <div class="summary-row total">
             <span>Total (ZAR)</span>
             <span id="checkout-grand-total">R 0.00</span>
@@ -252,16 +259,64 @@
         window.location.href = 'products.html';
         return false;
       }
+
+      // Phone validation — required but accepts any country
+      const phoneInput = document.getElementById('phone');
+      const phoneError = document.getElementById('phone-error');
+      const raw = phoneInput.value.replace(/[\s\-\(\)]/g, '');
+      if (!raw) {
+        phoneError.style.display = 'block';
+        phoneInput.focus();
+        return false;
+      }
+      phoneError.style.display = 'none';
+
+      // Normalize SA numbers for PayFast; for non-SA, save to notes and clear field
+      const saPattern = /^(\+27|27|0)[6-8][0-9]{8}$/;
+      if (saPattern.test(raw)) {
+        const digits = raw.replace(/^\+?27|^0/, '');
+        phoneInput.value = '+27' + digits;
+      } else {
+        // Store non-SA number in order notes so we still have it
+        const notesEl = document.getElementById('order_notes');
+        if (notesEl && !notesEl.value.includes('Phone:')) {
+          notesEl.value = (notesEl.value ? notesEl.value + '\n' : '') + 'Phone: ' + phoneInput.value;
+        }
+        phoneInput.value = ''; // clear so PayFast doesn't reject it
+      }
+
       document.getElementById('payfast-amount').value = total.toFixed(2);
 
-      // Also update the grand total display
       const grandTotalEl = document.getElementById('checkout-grand-total');
       if (grandTotalEl) grandTotalEl.textContent = `R ${total.toFixed(2)}`;
 
-      // Clear the cart after redirecting to PayFast
-      // (PayFast will redirect to return_url after payment)
-      CartManager.clear();
-      return true; // allow form to submit
+      return true; // allow form to submit — cart cleared on thankyou.html
+    }
+
+    // Auto-format phone number as user types
+    function formatPhone(input) {
+      let val = input.value.replace(/[^\d\+]/g, '');
+
+      // SA: starts with 0 → format as 0XX XXX XXXX
+      if (/^0\d*/.test(val)) {
+        val = val.slice(0, 10);
+        if (val.length > 6) val = val.slice(0,3) + ' ' + val.slice(3,6) + ' ' + val.slice(6);
+        else if (val.length > 3) val = val.slice(0,3) + ' ' + val.slice(3);
+
+      // SA: starts with 27 or +27 → format as +27 XX XXX XXXX
+      } else if (/^\+?27\d*/.test(val)) {
+        val = val.replace(/^\+?/, '+');
+        const digits = val.replace(/^\+27/, '');
+        const grouped = digits.slice(0,2) + (digits.length > 2 ? ' ' + digits.slice(2,5) : '') + (digits.length > 5 ? ' ' + digits.slice(5,9) : '');
+        val = '+27 ' + grouped;
+
+      // International: starts with + → keep + and digits, add space after country code guess
+      } else if (val.startsWith('+')) {
+        // Just keep it clean, don't over-format unknown country codes
+        val = '+' + val.slice(1).replace(/\D/g, '');
+      }
+
+      input.value = val;
     }
   </script>
 
