@@ -46,7 +46,7 @@ const CartManager = {
 
   /** Remove a product from the cart by its id */
   removeItem(id) {
-    const cart = this.getCart().filter(item => item.id !== id);
+    const cart = this.getCart().filter(item => String(item.id) !== String(id));
     this.saveCart(cart);
     updateCartBadge();
   },
@@ -54,7 +54,7 @@ const CartManager = {
   /** Update the quantity of a cart item. Removes the item if qty drops to 0. */
   updateQty(id, newQty) {
     const cart = this.getCart();
-    const item = cart.find(i => i.id === id);
+    const item = cart.find(i => String(i.id) === String(id));
     if (!item) return;
 
     if (newQty <= 0) {
@@ -164,9 +164,9 @@ function createProductCardHTML(product) {
     ? `<span class="product-card-badge">${product.badge}</span>`
     : '';
 
-  const priceDisplay = product.price > 0
-    ? `R ${product.price.toFixed(2)}`
-    : 'Price on request';
+  const priceDisplay = product.sizes
+    ? `From R ${Math.min(...product.sizes.map(s => s.price)).toFixed(2)}`
+    : product.price > 0 ? `R ${product.price.toFixed(2)}` : 'Price on request';
 
   const allImages = (product.images && product.images.length > 0)
     ? product.images
@@ -333,14 +333,14 @@ function renderCart() {
       <td>R ${item.price.toFixed(2)}</td>
       <td>
         <div class="qty-control">
-          <button onclick="changeQty(${item.id}, -1)">&#8722;</button>
+          <button onclick="changeQty('${item.id}', -1)">&#8722;</button>
           <span>${item.qty}</span>
-          <button onclick="changeQty(${item.id}, 1)">&#43;</button>
+          <button onclick="changeQty('${item.id}', 1)">&#43;</button>
         </div>
       </td>
       <td>R ${(item.price * item.qty).toFixed(2)}</td>
       <td>
-        <button class="remove-btn" onclick="removeFromCart(${item.id})" title="Remove item">&#10005;</button>
+        <button class="remove-btn" onclick="removeFromCart('${item.id}')" title="Remove item">&#10005;</button>
       </td>
     </tr>
   `).join('');
@@ -350,7 +350,7 @@ function renderCart() {
 
 function changeQty(id, delta) {
   const cart = CartManager.getCart();
-  const item = cart.find(i => i.id === id);
+  const item = cart.find(i => String(i.id) === String(id));
   if (item) CartManager.updateQty(id, item.qty + delta);
   renderCart();
 }

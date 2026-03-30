@@ -110,7 +110,7 @@
     </div>
   </footer>
 
-  <script src="js/products-data.js?v=14"></script>
+  <script src="js/products-data.js?v=15"></script>
   <script src="js/script.js"></script>
   <script>
     // Get the product id from the URL, e.g. product.html?id=3
@@ -157,6 +157,17 @@
         sliderHTML = `<div class="img-placeholder" style="height:100%;"><span>Photo<br>Coming Soon</span></div>`;
       }
 
+      // Build size selector HTML separately to avoid nested template literal issues
+      let sizeHTML = '';
+      if (product.sizes) {
+        const options = product.sizes.map(s => '<option value="' + s.size + '" data-price="' + s.price + '">' + s.size + ' \u2014 R ' + s.price.toFixed(2) + '</option>').join('');
+        sizeHTML = '<div style="margin-bottom:20px;"><label style="display:block;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">Size</label><select id="detail-size" onchange="updateSizePrice()" style="padding:10px 14px;border:1px solid #E8E2D7;font-size:15px;background:#fff;cursor:pointer;min-width:160px;"><option value="">Select a size</option>' + options + '</select></div>';
+      }
+
+      const priceText = product.sizes
+        ? 'From R ' + Math.min(...product.sizes.map(s => s.price)).toFixed(2)
+        : product.price > 0 ? 'R ' + product.price.toFixed(2) : 'Price on request';
+
       // Render the product detail section
       document.getElementById('product-detail').innerHTML = `
         <div class="product-detail-img">
@@ -166,8 +177,10 @@
         <div class="product-detail-info">
           <p class="product-detail-category">${product.category}</p>
           <h1 class="product-detail-name">${product.name}</h1>
-          <p class="product-detail-price">${product.price > 0 ? 'R ' + product.price.toFixed(2) : 'Price on request'}</p>
+          <p class="product-detail-price" id="product-detail-price">${priceText}</p>
           <p class="product-detail-desc">${product.description}</p>
+
+          ${sizeHTML}
 
           <div class="product-detail-qty">
             <label>Quantity</label>
@@ -221,13 +234,43 @@
       el.textContent = qty;
     }
 
+    function updateSizePrice() {
+      const select = document.getElementById('detail-size');
+      const opt = select.options[select.selectedIndex];
+      const priceEl = document.getElementById('product-detail-price');
+      if (opt && opt.dataset.price) priceEl.textContent = 'R ' + parseFloat(opt.dataset.price).toFixed(2);
+    }
+
     function addDetailToCart() {
       const qty = parseInt(document.getElementById('detail-qty').textContent);
-      for (let i = 0; i < qty; i++) {
-        CartManager.addItem(product);
+
+      let cartId = product.id;
+      let cartName = product.name;
+      let cartPrice = product.price;
+
+      if (product.sizes) {
+        const select = document.getElementById('detail-size');
+        if (!select.value) {
+          alert('Please select a size.');
+          select.focus();
+          return;
+        }
+        const opt = select.options[select.selectedIndex];
+        cartId = product.id + '-' + select.value;
+        cartName = product.name + ' (Size ' + select.value + ')';
+        cartPrice = parseFloat(opt.dataset.price);
       }
-      // Only show toast once even if qty > 1
-      if (qty > 1) showToast(`${qty} × "${product.name}" added to cart`);
+
+      const cart = CartManager.getCart();
+      const existing = cart.find(item => String(item.id) === String(cartId));
+      if (existing) {
+        existing.qty += qty;
+      } else {
+        cart.push({ id: cartId, name: cartName, category: product.category, price: cartPrice, image: product.image, qty: qty });
+      }
+      CartManager.saveCart(cart);
+      updateCartBadge();
+      showToast(qty > 1 ? `${qty} × "${cartName}" added to cart` : `"${cartName}" added to cart`);
     }
 
     // Image slider controls

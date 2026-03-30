@@ -110,7 +110,15 @@ const products = [
     id: 10,
     name: "Toddler Burnoose",
     category: "Kids",
-    price: 650,
+    price: 425,
+    sizes: [
+      { size: '18', price: 425 },
+      { size: '20', price: 425 },
+      { size: '22', price: 425 },
+      { size: '24', price: 475 },
+      { size: '26', price: 475 },
+      { size: '28', price: 475 }
+    ],
     image: "images/KBurnooseM.png",
     images: ["images/KBurnooseM.png", "images/KBurnooseS1.png", "images/KBurnooseS2.png", "images/KBurnooseS3.jpg", "images/KBurnooseS4.png", "images/KBurnooseS5.png", "images/KBurnooseS6.png"],
     badge: "",
