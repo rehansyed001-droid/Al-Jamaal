@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" href="images/BrandIcon.png">
   <title>Checkout — Aljamaal Official</title>
-  <link rel="stylesheet" href="css/styles.css?v=13">
+  <link rel="stylesheet" href="css/styles.css?v=14">
 </head>
 
 <body>
@@ -433,7 +433,8 @@
         parcels:          buildParcels(),
         shipping:         selectedShipping,
         subtotal:         cartTotal,
-        grand_total:      cartTotal + parseFloat(selectedShipping.rate)
+        grand_total:      cartTotal + parseFloat(selectedShipping.rate),
+        items:            CartManager.getCart()
       }));
 
       updateOrderTotals();

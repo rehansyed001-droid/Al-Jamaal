@@ -1339,11 +1339,46 @@ section {
 
   /* Cart/Checkout */
   .form-row { grid-template-columns: 1fr; }
-  .cart-table th,
-  .cart-table td { padding: 12px 8px; }
-  .cart-item-info { gap: 8px; }
+
+  /* Cart — card layout on mobile (table → stacked cards) */
+  .cart-table thead { display: none; }
+  .cart-table,
+  .cart-table tbody,
+  .cart-table tr,
+  .cart-table td { display: block; width: 100%; box-sizing: border-box; }
+  .cart-table tr {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    margin-bottom: 16px;
+    padding: 4px 0;
+  }
+  .cart-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    border-bottom: none;
+  }
+  .cart-table td:first-child {
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .cart-table td:not(:first-child)::before {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--grey);
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .cart-table td:nth-child(2)::before { content: "Price"; }
+  .cart-table td:nth-child(3)::before { content: "Qty"; }
+  .cart-table td:nth-child(4)::before { content: "Total"; }
+  .cart-table td:nth-child(5) { justify-content: flex-end; padding-top: 6px; }
+
+  .cart-item-info { gap: 10px; }
   .cart-item-info img,
-  .cart-item-img { width: 55px !important; min-width: 55px !important; height: 65px !important; }
+  .cart-item-img { width: 60px !important; min-width: 60px !important; height: 72px !important; }
   .qty-control button { width: 28px; height: 28px; font-size: 14px; }
   .qty-control span { min-width: 24px; font-size: 14px; }
 }
