@@ -489,8 +489,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Home page: render 1 featured product from each category
   if (document.getElementById('featured-products')) {
-    const categories = ['Men', 'Women', 'Kids', 'Home'];
-    const featured = categories.map(cat => products.find(p => p.category === cat)).filter(Boolean);
+    const categories = ['Men', 'Women', 'Kids', 'Home & Gifts'];
+    const featured = categories.map(cat => products.find(p => p.category === cat && p.badge !== 'Sold Out') || products.find(p => p.category === cat)).filter(Boolean);
     renderProductGrid('featured-products', featured);
     initCardSliderTouch(document.getElementById('featured-products'));
   }
